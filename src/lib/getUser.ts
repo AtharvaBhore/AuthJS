@@ -1,9 +1,5 @@
 "use server"
-import {decode} from "next-auth/jwt"
 import {auth} from "@/auth"
-
-import {cookies} from "next/headers"
-import {User} from "next-auth"
 
 export const getUser = async () => {
 	try {

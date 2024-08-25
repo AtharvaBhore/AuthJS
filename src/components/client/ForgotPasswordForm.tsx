@@ -72,7 +72,6 @@ const ForgotPasswordForm = () => {
 				setError(data.msg || "Incorrect OTP, please try again.")
 			} else {
 				setOtpVerified(true)
-				alert("OTP verified successfully")
 			}
 		} catch (err) {
 			setError("Incorrect OTP, please try again.")
@@ -147,6 +146,7 @@ const ForgotPasswordForm = () => {
 						</label>
 						<input
 							onChange={handleChange}
+							autoComplete="off"
 							type="email"
 							id="email"
 							name="email"
@@ -238,6 +238,12 @@ const ForgotPasswordForm = () => {
 
 				<div className="flex justify-center items-center">
 					{error && <p className="text-red-500 mx-auto">{error}</p>}
+				</div>
+				<div className="flex justify-center items-center">
+					{OTPInputVisible && !otpVerified && <p className="text-green-500 mx-auto">OTP sent successfully</p>}
+				</div>
+				<div className="flex justify-center items-center">
+					{otpVerified && <p className="text-green-500 mx-auto">OTP verified successfully</p>}
 				</div>
 			</div>
 		</div>

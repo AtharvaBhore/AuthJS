@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import otpGenerator from "otp-generator"
-import { OTP } from "@/models/otpModels" // Adjust the path as needed
-import { sendMail } from "@/lib/sendMail" // Adjust the path as needed
+import { OTP } from "@/models/otpModels" 
+import { sendMail } from "@/lib/sendMail" 
 import { connectToDatabase } from "@/lib/utils"
 
 export async function POST(req: NextRequest) {

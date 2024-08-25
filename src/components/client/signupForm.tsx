@@ -15,9 +15,7 @@ const SignupForm = () => {
 		otp: "",
 		confirmPassword: "",
 	})
-	const [otp, setOtp] = useState("") // State to hold OTP
 	const [error, setError] = useState("")
-	const [sentOTP, setSentOTP] = useState(false)
 	const [OTPInputVisible, setOtpInputVisible] = useState(false)
 	const [otpVerified, setOtpVerified] = useState(false)
 	const router = useRouter()
@@ -70,8 +68,8 @@ const SignupForm = () => {
 		setFormData({...formData, [e.target.id]: e.target.value})
 		if (e.target.id === "email" && validator.isEmail(formData.email)) {
 			return setError("")
-		} 
-		if(e.target.id === "email" && !validator.isEmail(formData.email)) {
+		}
+		if (e.target.id === "email" && !validator.isEmail(formData.email)) {
 			return setError("Please enter a valid email address")
 		}
 	}
@@ -122,7 +120,6 @@ const SignupForm = () => {
 				setError(data.msg || "Incorrect OTP, please try again.")
 			} else {
 				setOtpVerified(true)
-				alert("OTP verified successfully")
 			}
 		} catch (err) {
 			setError("Incorrect OTP, please try again.")
@@ -145,6 +142,7 @@ const SignupForm = () => {
 					</label>
 					<input
 						onChange={handleChange}
+						autoComplete="off"
 						type="text"
 						id="username"
 						name="username"
@@ -162,6 +160,7 @@ const SignupForm = () => {
 					</label>
 					<input
 						onChange={handleChange}
+						autoComplete="off"
 						type="email"
 						id="email"
 						name="email"
@@ -265,6 +264,16 @@ const SignupForm = () => {
 			</div>
 			<div className="flex justify-center items-center">
 				{error && <p className="text-red-500 mx-auto">{error}</p>}
+			</div>
+			<div className="flex justify-center items-center">
+				{OTPInputVisible && !otpVerified && (
+					<p className="text-green-500 mx-auto">OTP sent successfully</p>
+				)}
+			</div>
+			<div className="flex justify-center items-center">
+				{otpVerified && (
+					<p className="text-green-500 mx-auto">OTP verified successfully</p>
+				)}
 			</div>
 		</div>
 	)

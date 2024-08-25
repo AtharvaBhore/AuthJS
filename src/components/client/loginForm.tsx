@@ -59,6 +59,7 @@ const LoginForm = () => {
 						Email
 					</label>
 					<input
+						autoComplete="off"
 						type="email"
 						id="email"
 						name="email"

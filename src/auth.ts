@@ -1,7 +1,6 @@
 import NextAuth, {AuthError, CredentialsSignin} from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
-import email from "next-auth/providers/email"
 import {User} from "./models/userModel"
 import {compare} from "bcryptjs"
 import {connectToDatabase} from "./lib/utils"

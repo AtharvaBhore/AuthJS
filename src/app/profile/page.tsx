@@ -1,4 +1,3 @@
-import {SignOut} from "@/actions/signout"
 import {redirect} from "next/navigation"
 import {auth} from "@/auth"
 import {ProfileForm} from "@/components/client/ProfileForm"

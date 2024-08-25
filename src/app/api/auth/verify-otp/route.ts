@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from "next/server"
-import {OTP} from "@/models/otpModels" // Adjust the path as needed
+import {OTP} from "@/models/otpModels" 
 import { connectToDatabase } from "@/lib/utils"
 
 export async function POST(req: NextRequest) {

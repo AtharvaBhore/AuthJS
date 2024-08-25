@@ -1,7 +1,5 @@
 import {signIn} from "next-auth/react"
 import {CredentialsSignin} from "next-auth"
-import {redirect} from "next/navigation"
-import {auth} from "@/auth"
 
 const credentialsLogin = async (email: string, password: string) => {
 	console.log(email)
@@ -9,7 +7,7 @@ const credentialsLogin = async (email: string, password: string) => {
 		const res = await signIn("credentials", {
 			email,
 			password,
-			redirect: false, // Disable redirect to capture the response
+			redirect: false, 
 		})
 
 		if (res?.error) {

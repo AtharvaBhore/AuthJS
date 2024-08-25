@@ -1,7 +1,6 @@
 import {getUser} from "@/lib/getUser"
 import {connectToDatabase} from "@/lib/utils"
 import {User} from "@/models/userModel"
-import {hash} from "bcryptjs"
 import {User as Usertype} from "next-auth"
 import {NextRequest, NextResponse} from "next/server"
 
