@@ -6,17 +6,18 @@ import {SignOut} from "@/actions/signout"
 import {getUser} from "@/lib/getUser"
 import {DeleteAccount} from "@/actions/deleteAccount"
 import {User} from "next-auth"
+import bcryptjs from "bcryptjs"
 
-const ProfileForm = ({email}: {email: string}) => {
+const ProfileForm = ({email}: { email: string}) => {
 	const [user, setUser] = useState({
 		name: "",
 		email: "",
 	})
 	const [success, setSuccess] = useState(false)
-	const [updatingPassword,setUpdatingPassword] = useState(false)
+	const [updatingPassword, setUpdatingPassword] = useState(false)
 	const [error, setError] = useState("")
 	const [formData, setFormData] = useState({
-		username: "",
+		username:"",
 		email,
 		password: "",
 	})
@@ -38,6 +39,7 @@ const ProfileForm = ({email}: {email: string}) => {
 			}
 
 			const user = await res.json()
+			console.log(user)
 			setUser({name: user.name, email: userData.email as string})
 		} catch (err) {
 			console.error("Error fetching user data:", err)
@@ -67,8 +69,7 @@ const ProfileForm = ({email}: {email: string}) => {
 			if (e.target.value === "") {
 				setError("")
 				setUpdatingPassword(false)
-			}
-			else{
+			} else {
 				setUpdatingPassword(true)
 			}
 			if (error === "Username cannot be empty") {
@@ -81,13 +82,52 @@ const ProfileForm = ({email}: {email: string}) => {
 		e.preventDefault()
 		setError("") // Clear any previous errors
 		setSuccess(false)
-		if (formData.username==="" && (updatingPassword && formData.password==="")) {
+		if (formData.username === "" && updatingPassword && formData.password === "") {
 			setError("Please fill in all required fields.")
 			return
 		}
 
 		if (updatingPassword && !validator.isStrongPassword(formData.password)) {
 			return setError("Please enter a strong password")
+		}
+
+		try {
+			const res = await fetch(`/api/userData`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			})
+
+			const data = await res.json()
+			if (!res.ok) {
+				setError(data.msg || "Failed to update profile.")
+			} else {
+				console.log(formData, data.name)
+				if(!formData.username && !formData.password){
+					setError("No change in profile were made")
+					return
+				}
+				if (data.name === formData.username) {
+					if (formData.password !== "") {
+						const match = await bcryptjs.compare(
+							formData.password,
+							data.password
+						)
+						console.log(match)
+						if (match) {
+							setError("New password cannot be same as old password")
+							return
+						}
+					} else {
+						setError("No change in profile were made")
+						return
+					}
+				}
+			}
+		} catch (err) {
+			console.error("Profile update error:", err)
+			setError("An unexpected error occurred. Please try again.")
 		}
 
 		try {
@@ -106,7 +146,7 @@ const ProfileForm = ({email}: {email: string}) => {
 			} else {
 				setSuccess(true)
 				console.log("Profile updated successfully")
-				getUserData() // Refresh user data after successful update
+				getUserData() 
 			}
 		} catch (err) {
 			console.error("Profile update error:", err)
@@ -142,9 +182,7 @@ const ProfileForm = ({email}: {email: string}) => {
 					className="bg-slate-100 text-gray-700 rounded-lg p-3"
 					onChange={handleChange}
 				/>
-				<button
-					className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
-				>
+				<button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
 					Update
 				</button>
 			</form>

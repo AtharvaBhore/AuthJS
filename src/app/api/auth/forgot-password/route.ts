@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 		const updateData: {password: string} = {
 			password: hashedPassword,
 		}
-		console.log("mmmmmmmm" + updateData)
+		console.log(updateData)
 
 		const updatedUser = await User.findOneAndUpdate({email}, updateData, {
 			new: true,

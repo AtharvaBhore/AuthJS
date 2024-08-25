@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 		const updateData: {name: string; password?: string} = {
 			name: username ? username : user?.name,
 		}
-		console.log("mmmmmmmm" + updateData)
+		console.log(updateData)
 
 		if (password !== "") {
 			const hashedPassword = await hash(password, 10)
